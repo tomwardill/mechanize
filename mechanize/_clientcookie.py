@@ -2,11 +2,11 @@ from __future__ import absolute_import
 
 import re
 import time
-from cookielib import Cookie as _Cookie
-from cookielib import CookieJar as CJ
-from cookielib import MozillaCookieJar as MCJ
-from cookielib import request_host as request_host_lc
-from cookielib import (DEFAULT_HTTP_PORT, CookiePolicy, DefaultCookiePolicy,
+from _compat import Cookie as _Cookie
+from _compat import CookieJar as CJ
+from _compat import MozillaCookieJar as MCJ
+from _compat import request_host as request_host_lc
+from _compat import (DEFAULT_HTTP_PORT, CookiePolicy, DefaultCookiePolicy,
                        FileCookieJar, LoadError, LWPCookieJar, _debug,
                        domain_match, eff_request_host, escape_path, is_HDN,
                        lwp_cookie_str, reach, request_path, request_port,

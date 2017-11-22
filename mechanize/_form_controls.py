@@ -6,9 +6,9 @@ import random
 import re
 import sys
 import urllib
-import urlparse
+from _compat import urlparse
 import warnings
-from cStringIO import StringIO
+from _compat import StringIO
 
 from . import _request
 
@@ -60,7 +60,7 @@ def isstringlike(x):
 def choose_boundary():
     """Return a string usable as a multipart boundary."""
     # follow IE and firefox
-    nonce = "".join([str(random.randint(0, sys.maxint - 1)) for i in 0, 1, 2])
+    nonce = "".join([str(random.randint(0, sys.maxint - 1)) for i in [0, 1, 2]])
     return "-" * 27 + nonce
 
 

@@ -10,7 +10,7 @@ COPYING.txt included with the distribution).
 
 from __future__ import absolute_import
 import logging
-from urllib import urlencode
+from _compat import urlencode
 
 from . import _rfc3986
 from . import _sockettimeout

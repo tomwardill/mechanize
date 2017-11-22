@@ -29,14 +29,15 @@ COPYING.txt included with the distribution).
 # abstract factory for opener
 
 from __future__ import absolute_import
+from _compat import reraise
 
 import base64
 import bisect
 import copy
 import hashlib
-import httplib
+from _compat import httplib
 import logging
-import mimetools
+from _compat import Message
 import os
 import platform
 import posixpath
@@ -46,14 +47,25 @@ import socket
 import sys
 import time
 import urllib
-import urlparse
-from cStringIO import StringIO
+from _compat import urlparse
+from _compat import StringIO
 from functools import partial
 # support for FileHandler, proxies via environment variables
-from urllib import (addinfourl, ftpwrapper, getproxies, splitattr, splitpasswd,
-                    splitport, splittype, splituser, splitvalue, unquote,
-                    unwrap, url2pathname)
-from urllib2 import HTTPError, URLError
+from _compat import (
+    addinfourl,
+    ftpwrapper,
+    getproxies,
+    splitattr,
+    splittype,
+    splituser,
+    splitpasswd,
+    splitport,
+    splitvalue,
+    unquote,
+    unwrap,
+    url2pathname
+)
+from _compat import HTTPError, URLError
 
 from . import _rfc3986
 from ._clientcookie import CookieJar
@@ -1358,7 +1370,7 @@ class FileHandler(BaseHandler):
             size = stats.st_size
             modified = emailutils.formatdate(stats.st_mtime, usegmt=True)
             mtype = mimetypes.guess_type(file)[0]
-            headers = mimetools.Message(StringIO(
+            headers = Message(StringIO(
                 'Content-type: %s\nContent-length: %d\nLast-modified: %s\n' %
                 (mtype or 'text/plain', size, modified)))
             if host:
@@ -1424,10 +1436,10 @@ class FTPHandler(BaseHandler):
             if retrlen is not None and retrlen >= 0:
                 headers += "Content-length: %d\n" % retrlen
             sf = StringIO(headers)
-            headers = mimetools.Message(sf)
+            headers = Message(sf)
             return addinfourl(fp, headers, req.get_full_url())
         except ftplib.all_errors as msg:
-            raise URLError('ftp error: %s' % msg), None, sys.exc_info()[2]
+            reraise(URLError, URLError('ftp error: %s' % msg), sys.exc_info()[2])
 
     def connect_ftp(self, user, passwd, host, port, dirs, timeout):
         try:

@@ -18,9 +18,9 @@ included with the distribution).
 
 from __future__ import absolute_import
 import copy
-import mimetools
-import urllib2
-from cStringIO import StringIO
+from _compat import Message
+from _compat import HTTPError
+from _compat import StringIO
 
 from ._headersutil import normalize_header_name
 
@@ -482,7 +482,7 @@ def make_headers(headers):
     hdr_text = []
     for name_value in headers:
         hdr_text.append("%s: %s" % name_value)
-    return mimetools.Message(StringIO("\n".join(hdr_text)))
+    return Message(StringIO("\n".join(hdr_text)))
 
 
 # Rest of this module is especially horrible, but needed, at least until fork
@@ -492,7 +492,7 @@ def make_headers(headers):
 def get_seek_wrapper_class(response):
     # in order to wrap response objects that are also exceptions, we must
     # dynamically subclass the exception :-(((
-    if (isinstance(response, urllib2.HTTPError) and
+    if (isinstance(response, HTTPError) and
             not hasattr(response, "seek")):
         if response.__class__.__module__ == "__builtin__":
             exc_class_name = response.__class__.__name__
