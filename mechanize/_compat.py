@@ -35,13 +35,12 @@ else:
 
 if sys.version_info[0] > 2:
     from urllib.parse import urlparse
+    from urllib.parse import urlencode
+    from urllib.parse import urljoin
 else:
     import urlparse
-
-if sys.version_info[0] > 2:
-    from urllib.parse import urlencode
-else:
     from urllib import urlencode
+    from urlparse import urljoin
 
 if sys.version_info[0] > 2:
     from urllib.response import addinfourl
@@ -58,6 +57,7 @@ if sys.version_info[0] > 2:
         splituser,
         splitvalue,
         splitport,
+        splithost,
         unquote,
         unwrap,
         url2pathname
@@ -72,10 +72,16 @@ else:
         splituser,
         splitvalue,
         splitport,
+        splithost,
         unquote,
         unwrap,
         url2pathname
     )
+
+if sys.version_info[0] > 2:
+    from urllib import robotparser
+else:
+    import robotparser
 
 if sys.version_info[0] > 2:
     from urllib.error import (
@@ -110,3 +116,19 @@ if sys.version_info[0] > 2:
     from email.message import Message
 else:
     from mimetools import Message
+
+if sys.version_info[0] > 2:
+    STRING_TYPES = (str)
+else:
+    from types import StringType, UnicodeType
+    STRING_TYPES = StringType, UnicodeType
+
+if sys.version_info[0] > 2:
+    long = int
+else:
+    long = long
+
+if sys.version_info[0] > 2:
+    HTTPS = True
+else:
+    HTTPS = hasattr(httplib, 'HTTPS')

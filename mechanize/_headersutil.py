@@ -13,12 +13,11 @@ from __future__ import absolute_import
 
 import os
 import re
-from types import StringType, UnicodeType
 
 from . import _rfc3986
 from ._util import http2time
 
-STRING_TYPES = StringType, UnicodeType
+from _compat import STRING_TYPES
 
 
 def is_html_file_extension(url, allow_xhtml):

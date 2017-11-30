@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import re
 from collections import defaultdict
-from urlparse import urljoin
+from _compat import urljoin
 
 from ._form_controls import HTMLForm, Label
 from ._request import Request
@@ -13,7 +13,7 @@ class SkipControl(ValueError):
 
 
 def normalize_line_endings(text):
-    return re.sub(ur"(?:(?<!\r)\n)|(?:\r(?!\n))", u"\r\n", text)
+    return re.sub(u"(?:(?<!\r)\n)|(?:\r(?!\n))", u"\r\n", text)
 
 
 def label_text(elem):

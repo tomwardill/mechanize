@@ -50,6 +50,7 @@ import urllib
 from _compat import urlparse
 from _compat import StringIO
 from functools import partial
+import _compat
 # support for FileHandler, proxies via environment variables
 from _compat import (
     addinfourl,
@@ -61,6 +62,7 @@ from _compat import (
     splitpasswd,
     splitport,
     splitvalue,
+    splithost,
     unquote,
     unwrap,
     url2pathname
@@ -90,9 +92,6 @@ if platform.python_implementation() == 'PyPy':
 else:
     def create_readline_wrapper(fh):
         return socket._fileobject(fh, close=True)
-
-
-splithost = urllib.splithost
 
 
 # used in User-Agent header sent
@@ -1202,7 +1201,7 @@ class HTTPHandler(AbstractHTTPHandler):
     http_request = AbstractHTTPHandler.do_request_
 
 
-if hasattr(httplib, 'HTTPS'):
+if hasattr(_compat, 'HTTPS'):
 
     class HTTPSHandler(AbstractHTTPHandler):
 

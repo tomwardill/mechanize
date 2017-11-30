@@ -14,7 +14,7 @@ import copy
 import os
 import re
 import urllib
-import urllib2
+from _compat import HTTPError
 
 from . import _request, _response, _rfc3986, _sockettimeout, _urllib2_fork
 from ._clientcookie import Cookie
@@ -282,7 +282,7 @@ class Browser(UserAgentBase):
         success = True
         try:
             response = UserAgentBase.open(self, request, data)
-        except urllib2.HTTPError as error:
+        except HTTPError as error:
             success = False
             if error.fp is None:  # not a response
                 raise

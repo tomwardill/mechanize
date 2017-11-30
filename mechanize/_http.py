@@ -15,10 +15,10 @@ COPYING.txt included with the distribution).
 from __future__ import absolute_import
 
 import logging
-import robotparser
+from _compat import robotparser
 import socket
 import time
-from cStringIO import StringIO
+from _compat import StringIO
 
 from . import _rfc3986, _sockettimeout
 from ._headersutil import is_html
@@ -129,7 +129,7 @@ class HTTPRobotRulesProcessor(BaseHandler):
     try:
         from httplib import HTTPMessage
     except:
-        from mimetools import Message
+        from _compat import Message
         http_response_class = Message
     else:
         http_response_class = HTTPMessage

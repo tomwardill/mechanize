@@ -11,12 +11,12 @@ COPYING.txt included with the distribution).
 from __future__ import absolute_import
 
 import bisect
-import httplib
+from _compat import httplib
 import os
 import tempfile
 import threading
 import types
-import urllib2
+from _compat import URLError, HTTPError
 
 from . import _response
 from . import _rfc3986
@@ -29,10 +29,10 @@ from ._util import isstringlike
 open_file = open
 
 
-class ContentTooShortError(urllib2.URLError):
+class ContentTooShortError(URLError):
 
     def __init__(self, reason, result):
-        urllib2.URLError.__init__(self, reason)
+        URLError.__init__(self, reason)
         self.result = result
 
 
@@ -321,7 +321,7 @@ def wrapped_open(urlopen, process_response_object, fullurl, data=None,
     success = True
     try:
         response = urlopen(fullurl, data, timeout)
-    except urllib2.HTTPError as error:
+    except HTTPError as error:
         success = False
         if error.fp is None:  # not a response
             raise
