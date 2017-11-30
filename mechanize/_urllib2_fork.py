@@ -124,7 +124,7 @@ def request_host(request):
 
     """
     url = request.get_full_url()
-    host = urlparse.urlparse(url)[1]
+    host = _compat.urlparse.urlparse(url)[1]
     if host == "":
         host = request.get_header("Host", "")
 
@@ -272,7 +272,7 @@ class Request:
         '''
         hdrs = self.unredirected_hdrs.copy()
         hdrs.update(self.headers)
-        return list(hdrs.iteritems())
+        return list(hdrs.items())
 
 
 class OpenerDirector:
@@ -747,7 +747,7 @@ class HTTPPasswordMgr:
         domains = self.passwd.get(realm, {})
         for default_port in True, False:
             reduced_authuri = self.reduce_uri(authuri, default_port)
-            for uris, authinfo in domains.iteritems():
+            for uris, authinfo in domains.items():
                 for uri in uris:
                     if self.is_suburi(uri, reduced_authuri):
                         return authinfo

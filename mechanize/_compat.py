@@ -34,7 +34,7 @@ else:
                        user_domain_match)
 
 if sys.version_info[0] > 2:
-    from urllib.parse import urlparse
+    import urllib.parse as urlparse
     from urllib.parse import urlencode
     from urllib.parse import urljoin
 else:

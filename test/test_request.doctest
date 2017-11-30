@@ -1,3 +1,4 @@
+>>> from __future__ import print_function
 >>> from mechanize import Request
 >>> Request("http://example.com/foo#frag").get_selector()
 '/foo'
@@ -60,7 +61,7 @@ True
 [('Foo-Bar', 'baz'), ('Spam-Eggs', 'blah')]
 >>> r.has_header("Not-there")
 False
->>> print r.get_header("Not-there")
+>>> print(r.get_header("Not-there"))
 None
 >>> r.get_header("Not-there", "default")
 'default'
