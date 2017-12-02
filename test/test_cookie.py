@@ -54,6 +54,6 @@ class Test(mechanize._testcase.TestCase):
             assert new_value != value, value
             return new_value
         cookie = make_cookie()
-        for arg, default_value in cookie_args().iteritems():
+        for arg, default_value in cookie_args().items():
             new_value = non_equal_value(default_value)
             self.assertNotEqual(make_cookie(**{arg: new_value}), cookie)

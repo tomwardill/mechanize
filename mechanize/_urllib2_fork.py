@@ -67,6 +67,7 @@ from _compat import (
     unwrap,
     url2pathname
 )
+from _compat import proxy_bypass as urllib_proxy_bypass
 from _compat import HTTPError, URLError
 
 from . import _rfc3986
@@ -446,7 +447,7 @@ class BaseHandler:
         pass
 
     def __lt__(self, other):
-        return self.handler_order < getattr(other, 'handler_order', sys.maxint)
+        return self.handler_order < getattr(other, 'handler_order', sys.maxsize)
 
     def __copy__(self):
         return self.__class__()
@@ -685,14 +686,14 @@ class ProxyHandler(BaseHandler):
         if proxies is None:
             proxies = getproxies()
 
-        assert hasattr(proxies, 'has_key'), "proxies must be a mapping"
+        assert hasattr(proxies, 'keys'), "proxies must be a mapping"
         self.proxies = proxies
         for type, url in proxies.items():
             setattr(self, '%s_open' % type,
                     lambda r, proxy=url, type=type, meth=self.proxy_open:
                     meth(r, proxy, type))
         if proxy_bypass is None:
-            proxy_bypass = urllib.proxy_bypass
+            proxy_bypass = urllib_proxy_bypass
         self._proxy_bypass = proxy_bypass
 
     def proxy_open(self, req, proxy, type):

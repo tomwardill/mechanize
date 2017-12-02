@@ -380,7 +380,12 @@ class closeable_response:
         else:
             self.fileno = lambda: None
         self.__iter__ = self.fp.__iter__
-        self.next = self.fp.next
+
+    def next(self):
+        if hasattr(self.fp, 'next'):
+            return self.fp.next()
+        else:
+            return next(self.fp)
 
     def __repr__(self):
         return '<%s at %s whose fp = %r>' % (self.__class__.__name__,

@@ -60,7 +60,8 @@ if sys.version_info[0] > 2:
         splithost,
         unquote,
         unwrap,
-        url2pathname
+        url2pathname,
+        proxy_bypass
     )
 else:
     from urllib import (
@@ -75,7 +76,8 @@ else:
         splithost,
         unquote,
         unwrap,
-        url2pathname
+        url2pathname,
+        proxy_bypass
     )
 
 if sys.version_info[0] > 2:
@@ -113,7 +115,12 @@ else:
     exec("def reraise(tp, value, tb=None):\n    raise tp, value, tb\n")
 
 if sys.version_info[0] > 2:
-    from email.message import Message
+    from email.message import Message as email_message
+    class Message(email_message):
+
+        def getheaders(self, header):
+            print(self.keys())
+            return self[header]
 else:
     from mimetools import Message
 

@@ -100,7 +100,7 @@ class UserAgentBase(_opener.OpenerDirector):
                        self.default_features):
             klass = self.handler_classes[scheme]
             ua_handlers[scheme] = klass()
-        for handler in ua_handlers.itervalues():
+        for handler in ua_handlers.values():
             self.add_handler(handler)
 
         # Yuck.
