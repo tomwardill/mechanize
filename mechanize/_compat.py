@@ -115,20 +115,26 @@ else:
     exec("def reraise(tp, value, tb=None):\n    raise tp, value, tb\n")
 
 if sys.version_info[0] > 2:
-    from email.message import Message as email_message
-    class Message(email_message):
-
-        def getheaders(self, header):
-            print(self.keys())
-            return self[header]
+    def getheaders(self, header):
+        return self.get_all(header)
+    from email.message import Message
+    Message.getheaders = getheaders
 else:
     from mimetools import Message
 
+def message_factory(input_headers):
+    if sys.version_info[0] > 2:
+        import email
+        message = email.message_from_string("\n".join(input_headers))
+        return message
+    else:
+        return Message(StringIO("\n".join(input_headers)))
+
 if sys.version_info[0] > 2:
-    STRING_TYPES = (str)
+    STRING_TYPES = (str,)
 else:
     from types import StringType, UnicodeType
-    STRING_TYPES = StringType, UnicodeType
+    STRING_TYPES = (StringType, UnicodeType)
 
 if sys.version_info[0] > 2:
     long = int

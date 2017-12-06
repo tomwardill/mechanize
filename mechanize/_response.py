@@ -21,6 +21,7 @@ import copy
 from _compat import Message
 from _compat import HTTPError
 from _compat import StringIO
+from _compat import message_factory
 
 from ._headersutil import normalize_header_name
 
@@ -461,7 +462,7 @@ def test_html_response(data='test data',
                        url="http://example.com/",
                        code=200,
                        msg="OK"):
-    headers += [("Content-type", "text/html")]
+    headers += [("Content-type", "text/html"), ("charset", "iso-8859/1")]
     return make_response(data, headers, url, code, msg)
 
 
@@ -487,7 +488,7 @@ def make_headers(headers):
     hdr_text = []
     for name_value in headers:
         hdr_text.append("%s: %s" % name_value)
-    return Message(StringIO("\n".join(hdr_text)))
+    return message_factory(hdr_text)
 
 
 # Rest of this module is especially horrible, but needed, at least until fork
